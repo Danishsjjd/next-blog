@@ -5,24 +5,33 @@ import {
   getDocs,
   onSnapshot,
 } from "firebase/firestore";
-import { useState } from "react";
+import { getAuth } from "firebase/auth";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
+import style from "../../styles/Post.module.css";
 import PostContent from "../../components/PostContent";
 import { db, getUserWithUsername, postToJson } from "../../lib/firebase";
 import MetaTag from "../../components/MetaTag";
+import AuthCheck from "../../components/AuthCheck";
+import HeartButton from "../../components/HeartButton";
 
 const Post = ({ path, post }) => {
   const postRef = doc(db, path);
   const [realtimePost, setRealtimePost] = useState(null);
 
   const finalPost = realtimePost || post;
+  const currentUser = getAuth().currentUser;
 
-  onSnapshot(postRef, (data) => {
-    setRealtimePost(data.data());
-  });
+  useEffect(() => {
+    onSnapshot(postRef, (data) => {
+      setRealtimePost(data.data());
+      console.log("inside snapshot", data.data());
+    });
+  }, []);
 
   return (
-    <main>
+    <main className={style.container}>
       <MetaTag title={post.title} />
       <section>
         <PostContent post={finalPost} />
@@ -30,8 +39,24 @@ const Post = ({ path, post }) => {
 
       <aside className="card">
         <p>
-          <strong>{post.heartCount || 0} 💖</strong>
+          <strong>{finalPost.heartCount || 0} 🤍</strong>
         </p>
+
+        <AuthCheck
+          fallback={
+            <Link href="/enter">
+              <button>💗 Sign Up</button>
+            </Link>
+          }
+        >
+          <HeartButton postRef={postRef} />
+        </AuthCheck>
+
+        {currentUser?.uid === post.uid && (
+          <Link href={`/admin/${post.slug}`}>
+            <button className="btn-blue">Edit Post</button>
+          </Link>
+        )}
       </aside>
     </main>
   );

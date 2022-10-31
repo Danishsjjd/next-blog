@@ -19,7 +19,7 @@ const EnterPage = () => {
 
   return (
     <main>
-      <MetaTag />
+      <MetaTag title={"Enter"} />
       {user ? (
         !username ? (
           <UsernameForm user={user} />

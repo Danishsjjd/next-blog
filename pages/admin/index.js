@@ -76,6 +76,7 @@ function CreateNewPost({ user }) {
       content: "# Hello World",
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
+      heartCount: 0,
     });
 
     toast.success("Post Created!");
