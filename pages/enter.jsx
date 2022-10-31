@@ -10,7 +10,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 
 import MetaTag from "../components/MetaTag";
 import { UserContext } from "../lib/context";
-import app from "../lib/firebase";
+import { app } from "../lib/firebase";
 
 const EnterPage = () => {
   const auth = getAuth(app);
