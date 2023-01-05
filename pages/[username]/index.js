@@ -5,38 +5,38 @@ import {
   limit,
   where,
   getDocs,
-} from "firebase/firestore";
+} from "firebase/firestore"
 
-import { getUserWithUsername, postToJson } from "../../lib/firebase";
-import UserFeed from "../../components/UserFeed";
-import UserProfile from "../../components/UserProfile";
-import MetaTag from "../../components/MetaTag";
+import { getUserWithUsername, postToJson } from "../../lib/firebase"
+import UserFeed from "../../components/UserFeed"
+import UserProfile from "../../components/UserProfile"
+import MetaTag from "../../components/MetaTag"
 
 export const getServerSideProps = async ({ query }) => {
-  const { username } = query;
+  const { username } = query
 
-  const userDoc = await getUserWithUsername(username);
+  const userDoc = await getUserWithUsername(username)
 
   if (!userDoc)
     return {
       notFound: true,
-    };
+    }
 
-  let user, posts;
+  let user, posts
 
   if (userDoc) {
-    user = userDoc.data();
+    user = userDoc.data()
 
-    const postQuery = collection(userDoc.ref, "posts");
+    const postQuery = collection(userDoc.ref, "posts")
 
     const q = firebaseQuery(
       postQuery,
       where("published", "==", true),
       orderBy("createdAt", "desc"),
       limit(5)
-    );
+    )
 
-    posts = (await getDocs(q)).docs.map(postToJson);
+    posts = (await getDocs(q)).docs.map(postToJson)
   }
 
   return {
@@ -44,8 +44,8 @@ export const getServerSideProps = async ({ query }) => {
       user,
       posts,
     },
-  };
-};
+  }
+}
 
 const UserProfilePage = ({ user, posts }) => {
   return (
@@ -54,7 +54,7 @@ const UserProfilePage = ({ user, posts }) => {
       <UserProfile user={user} />
       <UserFeed posts={posts} />
     </main>
-  );
-};
+  )
+}
 
-export default UserProfilePage;
+export default UserProfilePage

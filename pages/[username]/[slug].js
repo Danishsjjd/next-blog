@@ -4,31 +4,31 @@ import {
   collectionGroup,
   getDocs,
   onSnapshot,
-} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+} from "firebase/firestore"
+import { getAuth } from "firebase/auth"
+import { useEffect, useState } from "react"
+import Link from "next/link"
 
-import style from "../../styles/Post.module.css";
-import PostContent from "../../components/PostContent";
-import { db, getUserWithUsername, postToJson } from "../../lib/firebase";
-import MetaTag from "../../components/MetaTag";
-import AuthCheck from "../../components/AuthCheck";
-import HeartButton from "../../components/HeartButton";
+import style from "../../styles/Post.module.css"
+import PostContent from "../../components/PostContent"
+import { db, getUserWithUsername, postToJson } from "../../lib/firebase"
+import MetaTag from "../../components/MetaTag"
+import AuthCheck from "../../components/AuthCheck"
+import HeartButton from "../../components/HeartButton"
 
 const Post = ({ path, post }) => {
-  const postRef = doc(db, path);
-  const [realtimePost, setRealtimePost] = useState(null);
+  const postRef = doc(db, path)
+  const [realtimePost, setRealtimePost] = useState(null)
 
-  const finalPost = realtimePost || post;
-  const currentUser = getAuth().currentUser;
+  const finalPost = realtimePost || post
+  const currentUser = getAuth().currentUser
 
   useEffect(() => {
     onSnapshot(postRef, (data) => {
-      setRealtimePost(data.data());
-      console.log("inside snapshot", data.data());
-    });
-  }, []);
+      setRealtimePost(data.data())
+      console.log("inside snapshot", data.data())
+    })
+  }, [])
 
   return (
     <main className={style.container}>
@@ -59,46 +59,46 @@ const Post = ({ path, post }) => {
         )}
       </aside>
     </main>
-  );
-};
+  )
+}
 
 export const getStaticProps = async ({ params }) => {
-  const { username, slug } = params;
+  const { username, slug } = params
 
-  const userDoc = await getUserWithUsername(username);
+  const userDoc = await getUserWithUsername(username)
 
-  let post, path;
+  let post, path
 
   if (userDoc) {
-    const postRef = doc(db, "users", userDoc.id, "posts", slug);
-    const postDoc = await getDoc(postRef);
+    const postRef = doc(db, "users", userDoc.id, "posts", slug)
+    const postDoc = await getDoc(postRef)
 
-    if (!postDoc.exists()) return { notFound: true };
+    if (!postDoc.exists()) return { notFound: true }
 
-    post = postToJson(postDoc);
-    path = postRef.path;
+    post = postToJson(postDoc)
+    path = postRef.path
   }
 
   return {
     props: { path, post },
     revalidate: 5000,
-  };
-};
+  }
+}
 
 export const getStaticPaths = async () => {
-  const snapshot = await getDocs(collectionGroup(db, "posts"));
+  const snapshot = await getDocs(collectionGroup(db, "posts"))
 
   const paths = snapshot.docs.map((doc) => {
-    const { slug, username } = doc.data();
+    const { slug, username } = doc.data()
     return {
       params: { username, slug },
-    };
-  });
+    }
+  })
 
   return {
     paths,
     fallback: "blocking",
-  };
-};
+  }
+}
 
-export default Post;
+export default Post

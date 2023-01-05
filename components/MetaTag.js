@@ -1,11 +1,11 @@
-import Head from "next/head";
+import Head from "next/head"
 
 const MetaTag = ({ title, des, image }) => {
-  const t = `${title} - Feed`;
-  const d = "There is no place like feed.";
+  const t = `${title} - Feed`
+  const d = "There is no place like feed."
   const img = image
     ? image
-    : "https://lh3.googleusercontent.com/ogw/AOh-ky3Q8So3pvL3-iy2-vj2eT-m_aBHOKdrtCMWRjbARg=s32-c-mo";
+    : "https://lh3.googleusercontent.com/ogw/AOh-ky3Q8So3pvL3-iy2-vj2eT-m_aBHOKdrtCMWRjbARg=s32-c-mo"
 
   return (
     <Head>
@@ -39,7 +39,7 @@ const MetaTag = ({ title, des, image }) => {
 
       <title>{title ? t : "Feed"}</title>
     </Head>
-  );
-};
+  )
+}
 
-export default MetaTag;
+export default MetaTag

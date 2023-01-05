@@ -1,23 +1,23 @@
-import { getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth"
 import {
   doc,
   getDoc,
   serverTimestamp,
   updateDoc,
   deleteDoc,
-} from "firebase/firestore";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import ReactMarkdown from "react-markdown";
+} from "firebase/firestore"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
+import ReactMarkdown from "react-markdown"
 
-import AuthCheck from "../../components/AuthCheck";
-import ImageUploader from "../../components/ImageUploader";
-import MetaTag from "../../components/MetaTag";
-import { db } from "../../lib/firebase";
-import styles from "../../styles/Admin.module.css";
+import AuthCheck from "../../components/AuthCheck"
+import ImageUploader from "../../components/ImageUploader"
+import MetaTag from "../../components/MetaTag"
+import { db } from "../../lib/firebase"
+import styles from "../../styles/Admin.module.css"
 
 const index = () => {
   return (
@@ -25,32 +25,32 @@ const index = () => {
       <MetaTag title={"Admin"} />
       <PostManager />
     </AuthCheck>
-  );
-};
+  )
+}
 
 function PostManager({}) {
-  const [preview, setPreview] = useState(false);
-  const [post, setPost] = useState({});
+  const [preview, setPreview] = useState(false)
+  const [post, setPost] = useState({})
 
-  const router = useRouter();
-  const { slug } = router.query;
+  const router = useRouter()
+  const { slug } = router.query
 
-  const postRef = doc(db, `users/${getAuth().currentUser.uid}/posts/${slug}`);
+  const postRef = doc(db, `users/${getAuth().currentUser.uid}/posts/${slug}`)
 
   useEffect(() => {
     const getPost = async () => {
-      const postDoc = await getDoc(postRef);
-      setPost(postDoc.data());
-    };
-    getPost();
-  }, []);
+      const postDoc = await getDoc(postRef)
+      setPost(postDoc.data())
+    }
+    getPost()
+  }, [])
 
   const deletePost = async () => {
-    if (!window.confirm("Are You Sure?")) return;
-    await deleteDoc(postRef);
-    toast("Post is Deleted");
-    router.push(`/admin`);
-  };
+    if (!window.confirm("Are You Sure?")) return
+    await deleteDoc(postRef)
+    toast("Post is Deleted")
+    router.push(`/admin`)
+  }
 
   return (
     <main className={styles.container}>
@@ -83,7 +83,7 @@ function PostManager({}) {
         </>
       )}
     </main>
-  );
+  )
 }
 
 function PostForm({ postRef, defaultValues, preview }) {
@@ -96,19 +96,19 @@ function PostForm({ postRef, defaultValues, preview }) {
   } = useForm({
     defaultValues,
     mode: "onChange",
-  });
+  })
 
   const updateForm = async ({ content, published }) => {
     await updateDoc(postRef, {
       content,
       published,
       updatedAt: serverTimestamp(),
-    });
+    })
 
-    reset({ content, published });
+    reset({ content, published })
 
-    toast.success("Post is updated!!");
-  };
+    toast.success("Post is updated!!")
+  }
 
   return (
     <form onSubmit={handleSubmit(updateForm)}>
@@ -146,7 +146,7 @@ function PostForm({ postRef, defaultValues, preview }) {
         </button>
       </div>
     </form>
-  );
+  )
 }
 
-export default index;
+export default index

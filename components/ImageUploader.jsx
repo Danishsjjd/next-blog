@@ -1,48 +1,48 @@
-import { useState } from "react";
-import Loader from "../components/Loader";
+import { useState } from "react"
+import Loader from "../components/Loader"
 import {
   getStorage,
   ref,
   uploadBytesResumable,
   getDownloadURL,
-} from "firebase/storage";
-import { getAuth } from "firebase/auth";
+} from "firebase/storage"
+import { getAuth } from "firebase/auth"
 
 const ImageUploader = () => {
-  const [upload, setUpload] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [downloadUrl, setDownloadUrl] = useState(null);
+  const [upload, setUpload] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [downloadUrl, setDownloadUrl] = useState(null)
 
   const uploadFile = (e) => {
-    const file = Array.from(e.target.files)[0];
-    const extension = file.type.split("/")[1];
+    const file = Array.from(e.target.files)[0]
+    const extension = file.type.split("/")[1]
 
-    const storage = getStorage();
+    const storage = getStorage()
     const storageRef = ref(
       storage,
       `uploads/${getAuth().currentUser.uid}/${Date.now()}.${extension}`
-    );
+    )
 
-    setUpload(true);
+    setUpload(true)
 
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    const uploadTask = uploadBytesResumable(storageRef, file)
 
     uploadTask.on(
       "state_changed",
       (snapshot) => {
         const progressCal =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progressCal);
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        setProgress(progressCal)
       },
       () => {},
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setDownloadUrl(downloadURL);
-          setUpload(false);
-        });
+          setDownloadUrl(downloadURL)
+          setUpload(false)
+        })
       }
-    );
-  };
+    )
+  }
 
   return (
     <div className="box">
@@ -64,7 +64,7 @@ const ImageUploader = () => {
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ImageUploader;
+export default ImageUploader

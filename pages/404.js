@@ -1,6 +1,6 @@
-import Link from "next/link";
+import Link from "next/link"
 
-import MetaTag from "../components/MetaTag";
+import MetaTag from "../components/MetaTag"
 
 export default function Custom404() {
   return (
@@ -18,5 +18,5 @@ export default function Custom404() {
         <button className="btn-blue">Go home</button>
       </Link>
     </main>
-  );
+  )
 }

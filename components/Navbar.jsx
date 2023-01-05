@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { useContext } from "react";
+import Link from "next/link"
+import { useContext } from "react"
 
-import { UserContext } from "../lib/context";
+import { UserContext } from "../lib/context"
 const Navbar = () => {
-  const { user, username } = useContext(UserContext);
+  const { user, username } = useContext(UserContext)
   return (
     <nav className="navbar">
       <ul>
@@ -35,7 +35,7 @@ const Navbar = () => {
         )}
       </ul>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

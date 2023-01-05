@@ -7,7 +7,7 @@ const UserProfile = ({ user }) => {
       </p>
       <h1>{user.displayName}</h1>
     </div>
-  );
-};
+  )
+}
 
-export default UserProfile;
+export default UserProfile

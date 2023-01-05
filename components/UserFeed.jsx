@@ -1,16 +1,16 @@
-import Link from "next/link";
+import Link from "next/link"
 
 const UserFeed = ({ posts, admin }) => {
   return posts
     ? posts.map((post) => (
         <PostItem post={post} admin={admin} key={post.slug} />
       ))
-    : null;
-};
+    : null
+}
 
 function PostItem({ post, admin = false }) {
-  const wordCount = post.content.trim().split(/\s+/g).length;
-  const minutesToRead = (wordCount / 100 + 1).toFixed(0);
+  const wordCount = post.content.trim().split(/\s+/g).length
+  const minutesToRead = (wordCount / 100 + 1).toFixed(0)
 
   return (
     <div className="card">
@@ -49,7 +49,7 @@ function PostItem({ post, admin = false }) {
         </>
       )}
     </div>
-  );
+  )
 }
 
-export default UserFeed;
+export default UserFeed

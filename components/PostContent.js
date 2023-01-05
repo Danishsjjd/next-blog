@@ -1,11 +1,11 @@
-import Link from "next/link";
-import ReactMarkdown from "react-markdown";
+import Link from "next/link"
+import ReactMarkdown from "react-markdown"
 
 const PostContent = ({ post }) => {
   const createdAt =
     typeof post?.createdAt === "number"
       ? new Date(post.createdAt)
-      : post.createdAt.toDate();
+      : post.createdAt.toDate()
 
   return (
     <div className="card">
@@ -20,7 +20,7 @@ const PostContent = ({ post }) => {
 
       <ReactMarkdown>{post?.content}</ReactMarkdown>
     </div>
-  );
-};
+  )
+}
 
-export default PostContent;
+export default PostContent

@@ -1,12 +1,12 @@
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast"
 
-import Navbar from "../components/Navbar";
-import { UserContext } from "../lib/context";
-import "../styles/globals.css";
-import useUserData from "../lib/hooks/useUser";
+import Navbar from "../components/Navbar"
+import { UserContext } from "../lib/context"
+import "../styles/globals.css"
+import useUserData from "../lib/hooks/useUser"
 
 function MyApp({ Component, pageProps }) {
-  const userData = useUserData();
+  const userData = useUserData()
 
   return (
     <UserContext.Provider value={userData}>
@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} />
       <Toaster />
     </UserContext.Provider>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp
