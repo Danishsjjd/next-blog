@@ -26,7 +26,6 @@ const Post = ({ path, post }) => {
   useEffect(() => {
     onSnapshot(postRef, (data) => {
       setRealtimePost(data.data())
-      console.log("inside snapshot", data.data())
     })
   }, [])
 
@@ -77,6 +76,8 @@ export const getStaticProps = async ({ params }) => {
 
     post = postToJson(postDoc)
     path = postRef.path
+  } else {
+    return { notFound: true }
   }
 
   return {
