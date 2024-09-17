@@ -45,9 +45,9 @@ export default function Home(props) {
     const last = posts[posts.length - 1]
 
     const cursor =
-      typeof last.createdAt === "number"
+      typeof last?.createdAt === "number"
         ? Timestamp.fromMillis(last.createdAt)
-        : last.createdAt
+        : last?.createdAt
 
     const postsGroup = collectionGroup(db, "posts")
     const postsQuery = query(
@@ -55,7 +55,7 @@ export default function Home(props) {
       where("published", "==", true),
       orderBy("createdAt", "desc"),
       limit(LIMIT),
-      startAfter(cursor)
+      startAfter(cursor ?? "")
     )
 
     const newPosts = (await getDocs(postsQuery)).docs.map(postToJson)

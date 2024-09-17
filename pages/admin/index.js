@@ -71,7 +71,7 @@ function CreateNewPost({ user }) {
 
     const docRef = doc(db, "users", user.uid, "posts", slug)
     const ifExist = await getDoc(docRef)
-    if (ifExist) return toast.error("Post already exists")
+    if (ifExist.data()) return toast.error("Post already exists")
     await setDoc(docRef, {
       title,
       slug,
